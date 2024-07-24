@@ -1,6 +1,6 @@
-define(['knockout', 'ojs/ojcontext','ojs/ojcorerouter', 'ojs/ojknockoutrouteradapter', 'ojs/ojurlparamadapter','ojs/ojarraydataprovider',
-   'ojs/ojmodule-element', 'ojs/ojknockout',"ojs/ojnavigationlist"],
- function(ko, Context, CoreRouter, KnockoutRouterAdapter, UrlParamAdapter, ArrayDataProvider) {
+define(['knockout', 'ojs/ojcontext','ojs/ojcorerouter', 'ojs/ojknockoutrouteradapter', 'ojs/ojurlparamadapter', 'ojs/ojarraydataprovider', "ojs/ojarraytreedataprovider",
+   'ojs/ojmodule-element', 'ojs/ojknockout',"ojs/ojnavigationlist", "ojs/ojtreeview" ],
+ function(ko, Context, CoreRouter, KnockoutRouterAdapter, UrlParamAdapter, ArrayDataProvider, ArrayTreeDataProvider) {
     function ControllerViewModel() {
 
         // Media queries for responsive layouts
@@ -14,6 +14,98 @@ define(['knockout', 'ojs/ojcontext','ojs/ojcorerouter', 'ojs/ojknockoutrouterada
             { path: "customers", detail: { label: "Customers" } },
             { path: "about", detail: { label: "About" } },
           ];
+          let jsonData = [
+            {
+              "title": "News",
+              "id": "news"
+            },
+            {
+              "title": "Blogs",
+              "id": "blogs",
+              "children": [
+                {
+                  "title": "Today",
+                  "id": "today"
+                },
+                {
+                  "title": "Yesterday",
+                  "id": "yesterday"
+                },
+                {
+                  "title": "Archive",
+                  "id": "archive"
+                }
+              ]
+            },
+            {
+              "title": "Links",
+              "id": "links",
+              "children": [
+                {
+                  "title": "Oracle",
+                  "id": "oracle",
+                  "children": [
+                    {
+                      "title": "USA",
+                      "id": "usa",
+                      "children": [
+                        {
+                          "title": "Northeast",
+                          "id": "northeast"
+                        },
+                        {
+                          "title": "Midwest",
+                          "id": "midwest"
+                        },
+                        {
+                          "title": "South",
+                          "id": "south"
+                        },
+                        {
+                          "title": "West",
+                          "id": "west"
+                        }
+                      ]
+                    },
+                    {
+                      "title": "Europe",
+                      "id": "europe"
+                    },
+                    {
+                      "title": "Asia",
+                      "id": "asia",
+                      "children": [
+                        {
+                          "title": "Japan",
+                          "id": "japan"
+                        },
+                        {
+                          "title": "China",
+                          "id": "china"
+                        },
+                        {
+                          "title": "India",
+                          "id": "india"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "title": "IBM",
+                  "id": "ibm"
+                },
+                {
+                  "title": "Microsoft",
+                  "id": "microsoft"
+                }
+              ]
+            }
+          ];
+          this.data = new ArrayTreeDataProvider(jsonData, {
+            keyAttributes: "id",
+        });
+
           // Create ADP with partial array, excluding first redirect route
           this.dataProvider = new ArrayDataProvider(this.routes.slice(1), {
               keyAttributes: "path",
